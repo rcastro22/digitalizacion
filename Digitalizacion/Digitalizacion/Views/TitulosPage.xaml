@@ -1,0 +1,57 @@
+﻿<Page
+    x:Class="Digitalizacion.Views.TitulosPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Digitalizacion.Views"
+    xmlns:vm="using:Digitalizacion.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <vm:TitulosContext x:Key="TitulosContext" x:Name="TitulosContext" />
+    </Page.Resources>
+
+    <Grid Background="{StaticResource FondoPartial}">
+        <Grid.DataContext>
+            <Binding Source="{StaticResource TitulosContext}"/>
+        </Grid.DataContext>
+
+        <StackPanel>
+            <TextBox Text="{Binding Path=Carnet, Mode=TwoWay}"
+                     Header="Carné" MaxLength="8"/>
+            <TextBlock Text="{Binding Path=Nombre, Mode=OneWay}" />
+            <ComboBox HorizontalAlignment="Stretch"
+                      IsEnabled="{Binding Path=IsAlumnoEnabled, Mode=OneWay}"
+                      ItemsSource="{Binding Path=Carreras}"
+                      SelectedValue="{Binding Path=Carrera, Mode=TwoWay}"
+                      SelectedValuePath="Carrera"
+                      DisplayMemberPath="Nombre"
+                      Header="Carrera"/>
+            <ComboBox HorizontalAlignment="Stretch" 
+                      IsEnabled="{Binding Path=IsAlumnoEnabled, Mode=OneWay}"
+                      ItemsSource="{Binding Path=Titulos}"
+                      SelectedValue="{Binding Path=Titulo, Mode=TwoWay}"
+                      SelectedValuePath="Titulo"
+                      DisplayMemberPath="Nombre"
+                      Header="Titulo"/>
+            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*"></ColumnDefinition>
+                    <ColumnDefinition Width="25*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <ComboBox HorizontalAlignment="Stretch" 
+                      IsEnabled="{Binding Path=IsAlumnoEnabled, Mode=OneWay}"
+                      ItemsSource="{Binding Path=Solicitudes}"
+                      SelectedValue="{Binding Path=Solicitud, Mode=TwoWay}"
+                      Header="Solicitud" Grid.Column="0"/>
+                <CheckBox x:Name="cb1" Margin="5,0,0,0" 
+                    IsEnabled="{Binding Path=IsCarreraFill, Mode=OneWay}"
+                    Content="Todas" Grid.Column="1" VerticalAlignment="Bottom"
+                    IsChecked="{Binding Path=PasoCheck, Mode=TwoWay}"
+                    />
+            </Grid>
+        </StackPanel>
+
+    </Grid>
+</Page>

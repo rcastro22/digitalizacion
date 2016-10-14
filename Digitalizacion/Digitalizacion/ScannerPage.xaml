@@ -1,0 +1,121 @@
+﻿<Page
+    x:Class="Digitalizacion.ScannerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Digitalizacion"
+    xmlns:common="using:Digitalizacion.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <common:OutputHeightConverter x:Key="OutputHeightConverter"/>
+    </Page.Resources>
+
+    <Grid Background="{StaticResource FondoPartial}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Frame Grid.RowSpan="2" x:Name="FragmentFrame" Margin="0,0,5,0" />
+
+        <StackPanel Grid.Column="1">
+            <ComboBox ItemsSource="{Binding  Path=ScannerDataContext.ListOfScanners}"  
+                      Header="Escáner:"
+                        SelectedValue="{Binding Path=ScannerDataContext.CurrentScannerDeviceId, Mode=TwoWay}"
+                        SelectedValuePath="Id"
+                        DisplayMemberPath="Name"
+                        x:Name="ScannerComboBox" HorizontalAlignment="Stretch" />
+            <ToggleSwitch Header="Doble cara" IsOn="True" x:Name="tggDuplex" />
+            <ComboBox ItemsSource="{Binding  Path=ScannerDataContext.ListOfSizes}"  
+                        SelectedValue="{Binding Path=ScannerDataContext.CurrentSize, Mode=TwoWay}"
+                        SelectedValuePath="Tipo"
+                      Header="Tamaño de papel"
+                        DisplayMemberPath="Nombre"
+                        x:Name="PapelComboBox" HorizontalAlignment="Stretch" />
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Button x:Name="StartScenario" 
+                        Content="Escanear" 
+                        Margin="0,0,5,0"
+                        IsEnabled="{Binding IsScanningAllowed}"
+                        Click="StartScenario_Click"/>
+                <Button x:Name="CancelScenario"  Content="Cancelar" 
+                        IsEnabled="{Binding ScenarioRunning}"
+                        Margin="5,0,0,0"
+                        Click="CancelScenario_Click"/>
+            </StackPanel>
+            <TextBlock Text="Imagen escaneada"/>
+        </StackPanel>
+
+        <Image Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
+               x:Name="DisplayImage" AutomationProperties.Name="Preview of first scanned file"
+               Height="{Binding ElementName=OutputSection, Path=ActualHeight,  Converter={StaticResource OutputHeightConverter}}" 
+               Stretch="Fill">
+        </Image>
+
+        <Grid Grid.Row="2" Margin="0,10,5,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <DataTemplate x:Key="ScanerItemsTemplate">
+                    <StackPanel Margin="0,0,0,0">
+                        <TextBlock Text="{Binding Name}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </Grid.Resources>
+
+            <Button Grid.ColumnSpan="2" Margin="0,5,0,5"
+                    x:Name="btnCombinar" Click="btnCombinar_Click"
+                    IsEnabled="{Binding IsMergeAllowed}"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    Content="Unir">
+            </Button>
+
+            <Button Grid.Row="1" Grid.Column="0" FontSize="36" Margin="0,5,5,5"
+                    x:Name="btnFinalizar" Click="btnFinalizar_Click"
+                    IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Button.Content>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE105;" />
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="1" Grid.Column="1" FontSize="36" Margin="0,5,0,5"
+                    x:Name="btnCancelar" Click="btnCancelar_Click"
+                    IsEnabled="{Binding Path=IsDeleteAllowed, Mode=OneWay}"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Button.Content>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE107;" />
+                </Button.Content>
+            </Button>
+            <TextBlock Grid.Row="2" Grid.ColumnSpan="2"
+                       Margin="0,10,0,10"
+                       Text="Lista de imágenes a digitalizar:" />
+            <ListView Grid.Row="3" Grid.ColumnSpan="2"
+                      x:Name="ScanerListView"
+                      Background="{StaticResource FondoList}"
+                      ItemsSource="{Binding FileList}"
+                      ItemTemplate="{StaticResource ScanerItemsTemplate}"
+                      SelectionMode="Single"
+                      CanReorderItems="True" AllowDrop="True"
+                      KeyDown="ScanerListView_KeyDown"
+                      IsRightTapEnabled="True"
+                      RightTapped="ScanerListView_RightTapped"
+                      SelectionChanged="ScanerListView_SelectionChanged">
+            </ListView>
+        </Grid>
+
+    </Grid>
+</Page>

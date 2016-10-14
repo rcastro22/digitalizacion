@@ -1,0 +1,31 @@
+﻿<Page
+    x:Class="Digitalizacion.Views.ResolucionesPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="using:Digitalizacion.Common"
+    xmlns:local="using:Digitalizacion.Views"
+    xmlns:vm="using:Digitalizacion.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <vm:ResolucionesContext x:Key="ResolucionesContext" x:Name="ResolucionesContext" />
+        <common:DateValueConverter x:Key="DateValueConverter" />
+        <common:LongValueConverter x:Key="LongValueConverter" />
+    </Page.Resources>
+
+    <Grid Background="{StaticResource FondoPartial}">
+        <Grid.DataContext>
+            <Binding Source="{StaticResource ResolucionesContext}"/>
+        </Grid.DataContext>
+
+        <StackPanel>
+            <DatePicker HorizontalAlignment="Stretch" DayVisible="False"
+                        Date="{Binding Path=Fecha, Mode=TwoWay, Converter={StaticResource DateValueConverter}}"
+                        Header="Mes y año"/>
+            <TextBox Text="{Binding Path=Correlativo, Mode=TwoWay, Converter={StaticResource LongValueConverter}}"
+                     Header="Correlativo" MaxLength="18"/>
+        </StackPanel>
+
+    </Grid>
+</Page>

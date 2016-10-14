@@ -1,0 +1,51 @@
+﻿<Page x:ConnectionId='1'
+    x:Class="Digitalizacion.Views.ExpedientePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Digitalizacion.Views"
+    xmlns:vm="using:Digitalizacion.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="Expediente"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <vm:ExpedienteContext x:ConnectionId='2' x:Key="ExpedienteContext" x:Name="ExpedienteContext" />
+    </Page.Resources>
+
+    <Grid Background="{StaticResource FondoPartial}">
+        <Grid.DataContext>
+            <Binding Source="{StaticResource ExpedienteContext}"/>
+        </Grid.DataContext>
+
+        <StackPanel>
+            <TextBox x:ConnectionId='3' x:Name="txtCarne" Text="{Binding Path=Carnet, Mode=TwoWay}"
+                     Header="Carné" MaxLength="8"/>
+            <TextBlock Text="{Binding Path=Nombre, Mode=OneWay}" />
+            <ComboBox HorizontalAlignment="Stretch"
+                      IsEnabled="{Binding Path=IsAlumnoEnabled, Mode=OneWay}"
+                      ItemsSource="{Binding Path=Carreras}"
+                      SelectedValue="{Binding Path=Carrera, Mode=TwoWay}"
+                      SelectedValuePath="Carrera"
+                      DisplayMemberPath="Nombre"
+                      Header="Carrera"/>
+            <CheckBox x:ConnectionId='4' x:Name="cb1" Margin="5,0,0,0" 
+                    Visibility="Visible"
+                    IsEnabled="{Binding Path=IsEtiquetasFill, Mode=OneWay}"
+                    Content="Clasificar"
+                    IsChecked="{Binding Path=ValidExistsFile, Mode=TwoWay}"
+                    />
+            <TextBox x:ConnectionId='5' x:Name="txtCaja" Text="{Binding Path=Caja, Mode=TwoWay}"
+                     Header="No. de Caja" MaxLength="8"
+                     Visibility="{Binding Path=IsFileExist, Mode=OneWay}"
+                     />
+            <Button x:ConnectionId='6' x:Name="btnUpdate" HorizontalAlignment="Stretch" 
+                    Content="Actualizar no. de caja" 
+                                            Background="DarkBlue"
+                    IsEnabled="{Binding Path=IsCajaFill, Mode=OneWay}"
+                    Visibility="{Binding Path=IsFileExist, Mode=OneWay}"/>
+        </StackPanel>
+
+    </Grid>
+</Page>
+

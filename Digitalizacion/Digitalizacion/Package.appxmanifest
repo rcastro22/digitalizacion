@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
+  <Identity Name="21908RobertoCastro.220701080F412" Publisher="CN=9ECA16A9-F220-440A-A0B5-8462AEE3011E" Version="1.0.37.0" />
+  <mp:PhoneIdentity PhoneProductId="81f0538c-643c-48cd-809d-e5b2f5308c7f" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Properties>
+    <DisplayName>DigitalizacionUG</DisplayName>
+    <PublisherDisplayName>Roberto Castro</PublisherDisplayName>
+    <Logo>Assets\appicon50.png</Logo>
+  </Properties>
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+  </Dependencies>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Digitalizacion.App">
+      <uap:VisualElements DisplayName="Digitalización" Square150x150Logo="Assets\appicon150.png" Square44x44Logo="Assets\appicon44.png" Description="Digitalización de documentos" BackgroundColor="transparent">
+        <uap:DefaultTile Wide310x150Logo="Assets\logocompleto310.png" Square310x310Logo="Assets\appicon310.png" Square71x71Logo="Assets\appicon71.png">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square150x150Logo" />
+            <uap:ShowOn Tile="wide310x150Logo" />
+            <uap:ShowOn Tile="square310x310Logo" />
+          </uap:ShowNameOnTiles>
+        </uap:DefaultTile>
+        <uap:SplashScreen Image="Assets\logocompleto620.png" BackgroundColor="#FFFFFF" />
+      </uap:VisualElements>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <Capability Name="privateNetworkClientServer" />
+    <uap:Capability Name="picturesLibrary" />
+    <uap:Capability Name="enterpriseAuthentication" />
+    <uap:Capability Name="userAccountInformation" />
+  </Capabilities>
+</Package>

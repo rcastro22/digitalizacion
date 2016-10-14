@@ -1,0 +1,415 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{F920E8C2-E744-483C-8682-4AA7848B0EB5}</ProjectGuid>
+    <OutputType>AppContainerExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Digitalizacion</RootNamespace>
+    <AssemblyName>Digitalizacion</AssemblyName>
+    <DefaultLanguage>es-GT</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PackageCertificateKeyFile>Digitalizacion_StoreKey.pfx</PackageCertificateKeyFile>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>65D132BF7D6713C3E7C7FEB0B25FE79CABCEB27E</PackageCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Digitalizacion_StoreKey.pfx" />
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\APIClient.cs" />
+    <Compile Include="Models\Archivos\Archivos_GetResolucionesBindingModel.cs" />
+    <Compile Include="Models\Archivos\Archivos_PostPergaminoBindingModel.cs" />
+    <Compile Include="Models\Archivos\Archivos_PostCajaBindingModel.cs" />
+    <Compile Include="Models\Archivos\ObtenerResolucionesCompletas_Result.cs" />
+    <Compile Include="Models\Carreras\Carreras_GetCarrerasBindingModel.cs" />
+    <Compile Include="Models\ConveniosModel.cs" />
+    <Compile Include="Models\Catalogo\TipoConvenio_Result.cs" />
+    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\Usuarios\Usuarios_PostBindingModel.cs" />
+    <Compile Include="ViewModels\AdendaContext.cs" />
+    <Compile Include="ViewModels\AdministrativaContext.cs" />
+    <Compile Include="ViewModels\AdmisionContext.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\BecasContext.cs" />
+    <Compile Include="ViewModels\ConveniosContext.cs" />
+    <Compile Include="ViewModels\DocenteContext.cs" />
+    <Compile Include="ViewModels\DocsVariosAlumnoContext.cs" />
+    <Compile Include="ViewModels\DocsVariosCarreraContext.cs" />
+    <Compile Include="ViewModels\PergaminoContext.cs" />
+    <Compile Include="ViewModels\ExpedienteContext.cs" />
+    <Compile Include="ViewModels\InformaticaContext.cs" />
+    <Compile Include="ViewModels\LoginContext.cs" />
+    <Compile Include="ViewModels\ConsejoDirectivoContext.cs" />
+    <Compile Include="ViewModels\ResolucionesContext.cs" />
+    <Compile Include="ViewModels\SugerContext.cs" />
+    <Compile Include="ViewModels\TitulosContext.cs" />
+    <Compile Include="ViewModels\VicerrectoriaContext.cs" />
+    <Compile Include="Views\AcademicosPage.xaml.cs">
+      <DependentUpon>AcademicosPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AdendaPage.xaml.cs" />
+    <Compile Include="Views\AdministrativaPage.xaml.cs">
+      <DependentUpon>AdministrativaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AdmisionPage.xaml.cs">
+      <DependentUpon>AdmisionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BecasPage.xaml.cs">
+      <DependentUpon>BecasPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CodigoBarrasPage.xaml.cs">
+      <DependentUpon>CodigoBarrasPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Converts.cs" />
+    <Compile Include="Common\Helpers.cs" />
+    <Compile Include="Common\PlugInFilter.cs" />
+    <Compile Include="Common\ScannerContext.cs" />
+    <Compile Include="Common\SuspensionManager.cs" />
+    <Compile Include="Common\Utils.cs" />
+    <Compile Include="Views\ConveniosPage.xaml.cs">
+      <DependentUpon>ConveniosPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DiplomasPage.xaml.cs">
+      <DependentUpon>DiplomasPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DocentePage.xaml.cs">
+      <DependentUpon>DocentePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DocsVariosAlumnoPage.xaml.cs">
+      <DependentUpon>DocsVariosAlumnoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DocsVariosCarreraPage.xaml.cs">
+      <DependentUpon>DocsVariosCarreraPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PergaminoPage.xaml.cs">
+      <DependentUpon>PergaminoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExpedientePage.xaml.cs">
+      <DependentUpon>ExpedientePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InformaticaPage.xaml.cs">
+      <DependentUpon>InformaticaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AlumnosModel.cs" />
+    <Compile Include="Models\Alumnos\Alumnos_GetBindingModel.cs" />
+    <Compile Include="Models\Alumnos\Alumnos_GetSolicitudesBindingModel.cs" />
+    <Compile Include="Models\Alumnos\Requisitosadmision_Result.cs" />
+    <Compile Include="Models\ArchivosModel.cs" />
+    <Compile Include="Models\Archivos\Archivos_GetBindingModel.cs" />
+    <Compile Include="Models\Archivos\Archivos_GetEtiquetasBindingModel.cs" />
+    <Compile Include="Models\Archivos\Archivos_PostBindingModel.cs" />
+    <Compile Include="Models\Archivos\Etiquetasarchivo_Result.cs" />
+    <Compile Include="Models\CarrerasModel.cs" />
+    <Compile Include="Models\Carreras\Carreras_GetBindingModel.cs" />
+    <Compile Include="Models\Carreras\Carreras_GetTitulosBindingModel.cs" />
+    <Compile Include="Models\Carreras\Obtenercarrerasxcarnet_Result.cs" />
+    <Compile Include="Models\Carreras\Obtenertitulosxcarrera_Result.cs" />
+    <Compile Include="Models\TransferirModel.cs" />
+    <Compile Include="Views\ConsejoDirectivoPage.xaml.cs">
+      <DependentUpon>ConsejoDirectivoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SugerPage.xaml.cs">
+      <DependentUpon>SugerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TitulosPage.xaml.cs">
+      <DependentUpon>TitulosPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\AcademicosContext.cs" />
+    <Compile Include="ViewModels\DiplomasContext.cs" />
+    <Compile Include="Models\DocentesModel.cs" />
+    <Compile Include="Models\Docentes\Docentes_GetBindingModel.cs" />
+    <Compile Include="Models\EmpleadosModel.cs" />
+    <Compile Include="Models\Empleados\Empleados_GetBindingModel.cs" />
+    <Compile Include="Models\EtiquetasModel.cs" />
+    <Compile Include="Models\Etiquetas\Archivovalido_Result.cs" />
+    <Compile Include="Models\Etiquetas\Etiquetas.cs" />
+    <Compile Include="Models\Etiquetas\Etiquetas_GetArchivosBindingModel.cs" />
+    <Compile Include="Models\Etiquetas\Etiquetas_Result.cs" />
+    <Compile Include="Models\FacultadesModel.cs" />
+    <Compile Include="Models\Facultades\Facultad_Result.cs" />
+    <Compile Include="Models\UsuariosModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\RecibosPage.xaml.cs">
+      <DependentUpon>RecibosPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResolucionesPage.xaml.cs">
+      <DependentUpon>ResolucionesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Configuracion.cs" />
+    <Compile Include="ScannerPage.xaml.cs">
+      <DependentUpon>ScannerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransferirPage.xaml.cs">
+      <DependentUpon>TransferirPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VicerrectoriaPage.xaml.cs">
+      <DependentUpon>VicerrectoriaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\RecibosContext.cs" />
+    <Compile Include="ViewModels\TransferirContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <None Include="Digitalizacion_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\appicon150.png" />
+    <Content Include="Assets\appicon24.png" />
+    <Content Include="Assets\appicon310.png" />
+    <Content Include="Assets\appicon44.png" />
+    <Content Include="Assets\appicon50.png" />
+    <Content Include="Assets\appicon71.png" />
+    <Content Include="Assets\greenish.jpg" />
+    <Content Include="Assets\logocompleto310.png" />
+    <Content Include="Assets\logocompleto620.png" />
+    <Content Include="Assets\microsoft-sdk.png" />
+    <Content Include="Assets\windows-sdk.png" />
+    <Content Include="Assets\yellow.jpg" />
+    <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Properties\Default.rd.xml" />
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="Views\AcademicosPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AdendaPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AdministrativaPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AdmisionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BecasPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CodigoBarrasPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConveniosPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DiplomasPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DocentePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DocsVariosAlumnoPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DocsVariosCarreraPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PergaminoPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ExpedientePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InformaticaPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ConsejoDirectivoPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\RecibosPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ResolucionesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ScannerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ITG.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\SampleTemplateStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Views\SugerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TitulosPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TransferirPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VicerrectoriaPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="Microsoft.NET.Native.Runtime.1.1, Version=1.1">
+      <Name>Microsoft .NET Core Runtime Package for Windows</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsDesktop, Version=10.0.10586.0">
+      <Name>Windows Desktop Extensions for the UWP %28WindowsDesktop, Version=10.0.10586.0%29</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
+      <Name>Windows Mobile Extensions for the UWP %28WindowsMobile, Version=10.0.10586.0%29</Name>
+    </SDKReference>
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

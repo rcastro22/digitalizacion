@@ -1,0 +1,83 @@
+﻿<Page
+    x:Class="Digitalizacion.TransferirPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Digitalizacion"
+    xmlns:common="using:Digitalizacion.Common"
+    xmlns:vm="using:Digitalizacion.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <vm:TransferirContext x:Key="TransferirContext" x:Name="TransferirContext" />
+        <common:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Page.Resources>
+
+    <Grid Background="{StaticResource FondoPartial}">
+        <Grid.DataContext>
+            <Binding Source="{StaticResource TransferirContext}"/>
+        </Grid.DataContext>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.Resources>
+            <DataTemplate x:Key="ArchivosItemsTemplate">
+                <StackPanel>
+                    <TextBlock Text="{Binding Path=Alias, Mode=OneWay}"/>
+                    <ProgressBar IsIndeterminate="True" 
+                                 Visibility="{Binding Path=Enviando, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <TextBlock Text="{Binding Path=Mensaje, Mode=OneWay}" />
+                </StackPanel>
+            </DataTemplate>
+        </Grid.Resources>
+
+        <StackPanel x:Name="stkBuscar">
+            <TextBlock Text="Buscar" />
+            <ComboBox x:Name="cboPage" HorizontalAlignment="Stretch"
+                      ItemsSource="{Binding Path=Carpetas}"
+                      SelectedValue="{Binding Path=Carpeta, Mode=TwoWay}"
+                      SelectedValuePath="ClassType"
+                      DisplayMemberPath="Title"/>
+        </StackPanel>
+
+        <CheckBox Grid.Row="1" 
+                  x:Name="chkTodos"
+                  Content="Todos" VerticalAlignment="Bottom"
+                  Checked="chkTodos_Checked"
+                  Unchecked="chkTodos_Unchecked"
+                  IsEnabled="{Binding Path=IsSeleccionarAllowed, Mode=OneWay}" />
+
+        <StackPanel Grid.Column="1" Grid.RowSpan="2"
+                    x:Name="stkCategoria">
+            <TextBlock Text="Usuario" />
+            <TextBlock x:Name="txtUsuario" />
+        </StackPanel>
+
+        <ListView Grid.Row="2"
+                  x:Name="lstArchivos"
+                  Background="{StaticResource FondoList}"
+                  ItemsSource="{Binding Archivos}"
+                  ItemTemplate="{StaticResource ArchivosItemsTemplate}"
+                  SelectionMode="Multiple"
+                  SelectionChanged="lstArchivos_SelectionChanged"/>
+        <ListView Grid.Row="2" Grid.Column="1"
+                  x:Name="lstTransferidos"
+                  Background="{StaticResource FondoList}"
+                  ItemsSource="{Binding Transferidos}"
+                  SelectionMode="None"/>
+
+        <Button Grid.Row="3" Grid.ColumnSpan="2"
+                x:Name="btnTransferir"
+                Content="Transferir archivos seleccionados"
+                IsEnabled="{Binding Path=IsTransferirAllowed, Mode=OneWay}"
+                HorizontalAlignment="Stretch"
+                Click="btnTransferir_Click"/>
+    </Grid>
+</Page>

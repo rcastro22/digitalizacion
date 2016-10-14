@@ -1,0 +1,43 @@
+﻿<Page
+    x:Class="Digitalizacion.Views.ConveniosPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="using:Digitalizacion.Common"
+    xmlns:local="using:Digitalizacion.Views"
+    xmlns:vm="using:Digitalizacion.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <vm:ConveniosContext x:Key="ConveniosContext" x:Name="ConveniosContext" />
+        <common:DateValueConverter x:Key="DateValueConverter" />
+        <common:LongValueConverter x:Key="LongValueConverter" />
+    </Page.Resources>
+
+    <Grid Background="{StaticResource FondoPartial}">
+        <Grid.DataContext>
+            <Binding Source="{StaticResource ConveniosContext}"/>
+        </Grid.DataContext>
+
+        <StackPanel>
+            <TextBox x:Name="txtEntidad" Text="{Binding Path=Nombre, Mode=TwoWay}"
+                     Header="Nombre" MaxLength="150"/>
+            <ComboBox HorizontalAlignment="Stretch"                      
+                      ItemsSource="{Binding Path=Convenios}"
+                      SelectedValue="{Binding Path=Convenio, Mode=TwoWay}"
+                      SelectedValuePath="Codigo"
+                      DisplayMemberPath="Nombre"
+                      Header="Categoria"/>
+            <ComboBox HorizontalAlignment="Stretch"                      
+                      ItemsSource="{Binding Path=Facultades}"
+                      SelectedValue="{Binding Path=Facultad, Mode=TwoWay}"
+                      SelectedValuePath="Entidad"
+                      DisplayMemberPath="Descripcion_Larga"
+                      Header="Facultad"/>
+            <DatePicker HorizontalAlignment="Stretch"
+                        Date="{Binding Path=Fecha, Mode=TwoWay, Converter={StaticResource DateValueConverter}}"
+                        Header="Fecha"/>
+            <TextBlock Text="{Binding Path=Nombre, Mode=OneWay}" />            
+        </StackPanel>
+    </Grid>
+</Page>

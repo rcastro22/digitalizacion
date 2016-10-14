@@ -1,0 +1,41 @@
+﻿<Page
+    x:Class="Digitalizacion.Views.ConsejoDirectivoPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="using:Digitalizacion.Common"
+    xmlns:local="using:Digitalizacion.Views"
+    xmlns:vm="using:Digitalizacion.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <vm:ConsejoDirectivoContext x:ConnectionId='1' x:Key="ConsejoDirectivoContext" x:Name="ConsejoDirectivoContext" />
+        <common:DateValueConverter x:Key="DateValueConverter" />
+        <common:LongValueConverter x:Key="LongValueConverter" />
+    </Page.Resources>
+
+    <Grid Background="{StaticResource FondoPartial}">
+        <Grid.DataContext>
+            <Binding Source="{StaticResource ConsejoDirectivoContext}"/>
+        </Grid.DataContext>
+
+        <StackPanel>
+            <DatePicker HorizontalAlignment="Stretch"
+                        Date="{Binding Path=Fecha, Mode=TwoWay, Converter={StaticResource DateValueConverter}}"
+                        Header="Fecha"/>
+            <TextBlock Text="{Binding Path=Nombre, Mode=OneWay}" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60*"></ColumnDefinition>
+                    <ColumnDefinition Width="40*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBox Text="{Binding Path=NoActa, Mode=TwoWay, Converter={StaticResource LongValueConverter}}"
+                      Header="No. de Acta" MaxLength="18" Grid.Column="0"/>
+                <DatePicker HorizontalAlignment="Center" DayVisible="False" MonthVisible="False" 
+                        Date="{Binding Path=Anio, Mode=TwoWay, Converter={StaticResource DateValueConverter}}"
+                        Header=" " Grid.Column="1"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Page>
+
