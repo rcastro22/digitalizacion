@@ -53,7 +53,7 @@ namespace Digitalizacion.ViewModels
 
             List<Etiquetas> lst = new List<Etiquetas>();
 
-            lst.Add(new Etiquetas((short)Common.Utils.Tags.CARNET, codpers));
+            lst.Add(new Etiquetas((short)Common.Utils.Tags.CODPERS, codpers));
 
             ctx.setEtiquetas("DO", 11, lst);
         }
