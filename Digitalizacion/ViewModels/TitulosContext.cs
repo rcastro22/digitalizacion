@@ -269,22 +269,17 @@ namespace Digitalizacion.ViewModels
 
                     foreach (long _tramite in Tramites)
                     {
-                        if (lst2 == null || lst2.Count() == 0)
+                        model2.Tramite = _tramite;
+                        lst2 = await AlumnosModel.GetSolicitudesPendientes(model2);
+                        if (lst2.Count() > 0)
                         {
-                            model2.Tramite = _tramite;
-
-                            lst2 = await AlumnosModel.GetSolicitudesPendientes(model2);
-                        }
-                        else
-                        {
-                            break;
+                            foreach (var fila in lst2)
+                            {
+                                this.solicitudes.Add(fila);
+                            }
                         }
                     }
 
-                    foreach (var fila in lst2)
-                    {
-                        this.solicitudes.Add(fila);
-                    }
                 }
             }
             catch (Exception)

@@ -28,6 +28,7 @@ namespace Digitalizacion.ViewModels
                 codpers = value;
                 OnPropertyChanged();
                 setNombre();
+                LlenarEtiquetas();
             }
         }
 
