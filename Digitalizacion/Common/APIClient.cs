@@ -149,6 +149,64 @@ namespace Digitalizacion.Common
             }
         }
 
+        protected async static Task<IBuffer> PostAPIBufferPdf(string API, string data, IEnumerable<IBuffer> files)
+        {
+            cts = new CancellationTokenSource();
+
+            Uri resourceUri = new Uri(AddressField + API);
+
+            rootPage.NotifyUser("En progreso", NotifyType.StatusMessage);
+
+            try
+            {
+                HttpResponseMessage response;
+
+                do
+                {
+                    Repetir = false;
+
+                    httpClient = await Helpers.CreateHttpClient(httpClient);
+
+                    HttpMultipartFormDataContent form = new HttpMultipartFormDataContent();
+
+                    form.Add(new HttpStringContent(data), "model");
+                    form.First().Headers.ContentType = Windows.Web.Http.Headers.HttpMediaTypeHeaderValue.Parse("application/json");
+
+                    for (int i = 0; i < files.Count(); i++)
+                    {
+                        form.Add(new HttpBufferContent(files.ElementAt(i), 0, files.ElementAt(i).Length), "image" + i, "Imagen" + i + ".bmp");
+                        form.ElementAt(i + 1).Headers.ContentType = Windows.Web.Http.Headers.HttpMediaTypeHeaderValue.Parse("image/bmp");
+                    }
+
+                    response = await httpClient.PostAsync(resourceUri, form).AsTask(cts.Token);
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        await MostrarErrorAPI(response);
+                    }
+                }
+                while (Repetir);
+
+                IBuffer result = await Helpers.GetStreamResultAsync(response, cts.Token);
+
+                rootPage.NotifyUser("Completado.", NotifyType.StatusMessage);
+
+                return result;
+            }
+            catch (TaskCanceledException)
+            {
+                rootPage.NotifyUser("Solicitud cancelada.", NotifyType.ErrorMessage);
+
+                throw;
+            }
+            catch (Exception ex)
+            {
+                rootPage.NotifyUser("Error: " + ex.Message, NotifyType.ErrorMessage);
+
+                throw;
+            }
+        }
+
         protected async static Task<string> PostAPI(string API, string data)
         {
             cts = new CancellationTokenSource();

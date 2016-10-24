@@ -36,6 +36,15 @@ namespace Digitalizacion.Models
 
         }
 
+        public static async Task<IBuffer> PostArchivoPdf(Archivos_PostBindingModel model, IEnumerable<IBuffer> files)
+        {
+            string json = model.Stringify();
+
+            IBuffer buffer = await PostAPIBufferPdf("api/Archivos/Archivopdf", json, files);
+
+            return buffer;
+        }
+
         public static async Task<IEnumerable<ObtenerResolucionesCompletas_Result>> GetResoluciones(Archivos_GetResolucionesBindingModel model)
         {
             string json = await GetAPI("api/Archivos/Resoluciones" + model.QueryString());

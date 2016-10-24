@@ -8,6 +8,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -51,12 +52,16 @@ namespace Digitalizacion
             {
                 CambiarVisibilidad(Visibility.Collapsed);
 
-                Models.Archivos.Archivos_PostBindingModel model = new Models.Archivos.Archivos_PostBindingModel();
+                Models.Archivos.Archivos_PostBindingModel model = new Models.Archivos.Archivos_PostBindingModel();                
 
                 foreach (var fila in lstArchivos.SelectedItems.Reverse())
                 {
                     TransferirModel myFolder = (TransferirModel)fila;
                     myFolder.Enviando = true;
+
+                    StorageFolder localFolder = await Utils.BaseFolder.CreateFolderAsync(TransferirContext.Carpeta.Name.Replace("Page", string.Empty), CreationCollisionOption.OpenIfExists);
+                    StorageFolder pdfFolderDig = await localFolder.CreateFolderAsync("Digitalizados", CreationCollisionOption.OpenIfExists);
+                    StorageFolder pdfFolderTran = await localFolder.CreateFolderAsync("Transferidos", CreationCollisionOption.OpenIfExists);
 
                     try
                     {
@@ -67,18 +72,19 @@ namespace Digitalizacion
 
                         string IdArchivo;
                         IdArchivo = Convert.ToString(await ArchivosModel.Post(model, archivos));
-                        /*IdArchivo = Convert.ToString(IdArchivo).Remove(IdArchivo.IndexOf("."));
 
-                        Models.Archivos.Archivos_GetBindingModel model2 = new Models.Archivos.Archivos_GetBindingModel();
-                        model2.ID = Convert.ToInt64(IdArchivo);
-
-                        IBuffer archivo = await ArchivosModel.Get(model2);
-                        byte[] st = archivo.ToArray();
-
-                        string path = @"C:\Users\DynamicsAdmin\Pictures\ARCHIVOS" + @"\" + "arch" + "." + "pdf";
-                        //path = @"C:\Users\Luis\Documents\" + IDArchivo + "." + Extension;
-                        await obtenerArchivoGuardad(st, path);*/
-
+                        //////////////////////////////
+                        var queryTags = from a in model.Etiquetas
+                                        select a.Valor;
+                        string NombreArchivo = string.Join("-", queryTags) + ".pdf";
+                        try
+                        {
+                            StorageFile filepage = await pdfFolderDig.GetFileAsync(NombreArchivo);
+                            await filepage.MoveAsync(pdfFolderTran, NombreArchivo, NameCollisionOption.ReplaceExisting);
+                        }
+                        catch
+                        { }
+                        //////////////////////////////
 
                         await TransferirContext.RemoverFolder(myFolder);
                     }

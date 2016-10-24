@@ -1,10 +1,12 @@
 ﻿using Digitalizacion.Common;
+using Digitalizacion.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
+using System.Threading.Tasks;
 using Windows.Devices.Scanners;
 using Windows.Foundation;
 using Windows.Storage;
@@ -86,6 +88,7 @@ namespace Digitalizacion
 
                 StorageFolder localFolder = await Utils.BaseFolder.CreateFolderAsync(tipoPage.Name.Replace("Page", string.Empty), CreationCollisionOption.OpenIfExists);
                 StorageFolder destinationFolder = await localFolder.CreateFolderAsync(Guid.NewGuid().ToString(), CreationCollisionOption.GenerateUniqueName);
+                StorageFolder pdfFolder = await localFolder.CreateFolderAsync("Digitalizados", CreationCollisionOption.OpenIfExists);
 
                 // Encabezado
                 StorageFile file = await destinationFolder.CreateFileAsync("Metadata.dat", CreationCollisionOption.FailIfExists);
@@ -98,6 +101,7 @@ namespace Digitalizacion
                 await FileIO.AppendLinesAsync(file, query);
 
                 List<Stream> Fotos = new List<Stream>();
+                List<IBuffer> lst = new List<IBuffer>();
 
                 // Detalle
                 foreach (FileItem fila in model.FileList)
@@ -106,10 +110,32 @@ namespace Digitalizacion
 
                     IBuffer buf = await FileIO.ReadBufferAsync(filepage);
 
+                    lst.Add(buf);
                     Fotos.Add(buf.AsStream());
 
                     await filepage.MoveAsync(destinationFolder);
                 }
+
+                ////////////////////
+                Models.Archivos.Archivos_PostBindingModel model2 = new Models.Archivos.Archivos_PostBindingModel();
+                model2.Aplicacion = model.Aplicacion;
+                model2.Categoria = model.Categoria;
+                model2.Etiquetas = model.Etiquetas;
+
+                IEnumerable<IBuffer> archivos = lst;
+
+                IBuffer archivo = await ArchivosModel.PostArchivoPdf(model2, archivos);
+                byte[] st = archivo.ToArray();
+
+                var queryTags = from a in model2.Etiquetas
+                                select a.Valor;
+                string NombreArchivo = string.Join("-", queryTags) + ".pdf";
+                try
+                {
+                    await obtenerArchivoGuardado(st, pdfFolder.Path + @"\" + NombreArchivo);
+                }
+                catch { }
+                ////////////////////
 
                 LimpiarVista();
 
@@ -119,6 +145,18 @@ namespace Digitalizacion
             {
                 rootPage.NotifyUser(ex.Message, NotifyType.ErrorMessage);
             }
+        }
+
+        public async Task obtenerArchivoGuardado(byte[] buffer, string path)
+        {
+            await Task.Run(() =>
+            {
+                Task.Yield();
+                using (FileStream stream = new FileStream(path, FileMode.Create))
+                {
+                    stream.Write(buffer, 0, buffer.Length);
+                }
+            });
         }
 
         private void LimpiarVista()
