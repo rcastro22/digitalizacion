@@ -1,1 +1,0 @@
-MainPackage=C:\Users\DynamicsAdmin\Source\Repos\Digitalizacion\Digitalizacion\Digitalizacion\bin\x64\Debug\Digitalizacion_1.0.37.0_x64_Debug.appx
