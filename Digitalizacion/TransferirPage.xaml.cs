@@ -74,16 +74,21 @@ namespace Digitalizacion
                         IdArchivo = Convert.ToString(await ArchivosModel.Post(model, archivos));
 
                         //////////////////////////////
-                        var queryTags = from a in model.Etiquetas
-                                        select a.Valor;
-                        string NombreArchivo = string.Join("-", queryTags) + ".pdf";
-                        try
+                        Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+                        bool value = Convert.ToBoolean(localSettings.Values["SaveLocalFile"]);
+                        if (value == true)
                         {
-                            StorageFile filepage = await pdfFolderDig.GetFileAsync(NombreArchivo);
-                            await filepage.MoveAsync(pdfFolderTran, NombreArchivo, NameCollisionOption.ReplaceExisting);
+                            var queryTags = from a in model.Etiquetas
+                                            select a.Valor;
+                            string NombreArchivo = string.Join("-", queryTags) + ".pdf";
+                            try
+                            {
+                                StorageFile filepage = await pdfFolderDig.GetFileAsync(NombreArchivo);
+                                await filepage.MoveAsync(pdfFolderTran, NombreArchivo, NameCollisionOption.ReplaceExisting);
+                            }
+                            catch
+                            { }
                         }
-                        catch
-                        { }
                         //////////////////////////////
 
                         await TransferirContext.RemoverFolder(myFolder);

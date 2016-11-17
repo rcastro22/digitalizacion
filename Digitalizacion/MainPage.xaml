@@ -60,7 +60,22 @@
                                    RelativePanel.Above="LinksPanel" Margin="10,10,0,0"
                                    TextWrapping="Wrap"/>
                         <StackPanel x:Name="LinksPanel" Orientation="Horizontal" Margin="10,10,0,10">
-                            <HyperlinkButton x:Name="SalirLink" Content="Cerrar sesión" Tag="" Click="Footer_Click" FontSize="12" Style="{StaticResource HyperlinkStyle}"/>
+                            <Grid Margin="0,0,0,0" HorizontalAlignment="Stretch" Width="300">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.5*"/>
+                                    <ColumnDefinition Width="0.5*"/>
+                                </Grid.ColumnDefinitions>
+                                <HyperlinkButton Grid.Column="0" x:Name="SalirLink"  Tag="" Click="Footer_Click" FontSize="12" Style="{StaticResource HyperlinkStyle}" Height="24" Width="24" Margin="0,0,15,0">
+                                    <HyperlinkButton.Background>
+                                        <ImageBrush Stretch="Fill" ImageSource="Assets/Out.png"/>
+                                    </HyperlinkButton.Background>
+                                </HyperlinkButton>
+                                <HyperlinkButton Grid.Column="1" x:Name="ConfLink"  Tag="" Click="Config_Click" FontSize="12" Style="{StaticResource HyperlinkStyle}" Height="24" Width="24" HorizontalAlignment="Right" Visibility="Collapsed">
+                                    <HyperlinkButton.Background>
+                                        <ImageBrush Stretch="Fill" ImageSource="Assets/Config.png"/>
+                                    </HyperlinkButton.Background>
+                                </HyperlinkButton>
+                            </Grid>
                         </StackPanel>
                     </StackPanel>
                 </RelativePanel>

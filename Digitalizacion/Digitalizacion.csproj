@@ -98,11 +98,15 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Assets\Carpetas.webloc" />
     <None Include="Digitalizacion_StoreKey.pfx" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\APIClient.cs" />
+    <Compile Include="ConfigPage.xaml.cs">
+      <DependentUpon>ConfigPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\Archivos\Archivos_GetResolucionesBindingModel.cs" />
     <Compile Include="Models\Archivos\Archivos_PostPergaminoBindingModel.cs" />
     <Compile Include="Models\Archivos\Archivos_PostCajaBindingModel.cs" />
@@ -256,10 +260,12 @@
     <Content Include="Assets\appicon44.png" />
     <Content Include="Assets\appicon50.png" />
     <Content Include="Assets\appicon71.png" />
+    <Content Include="Assets\Config.png" />
     <Content Include="Assets\greenish.jpg" />
     <Content Include="Assets\logocompleto310.png" />
     <Content Include="Assets\logocompleto620.png" />
     <Content Include="Assets\microsoft-sdk.png" />
+    <Content Include="Assets\Out.png" />
     <Content Include="Assets\windows-sdk.png" />
     <Content Include="Assets\yellow.jpg" />
     <None Include="Package.StoreAssociation.xml" />
@@ -277,6 +283,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ConfigPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AcademicosPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -117,24 +117,29 @@ namespace Digitalizacion
                 }
 
                 ////////////////////
-                Models.Archivos.Archivos_PostBindingModel model2 = new Models.Archivos.Archivos_PostBindingModel();
-                model2.Aplicacion = model.Aplicacion;
-                model2.Categoria = model.Categoria;
-                model2.Etiquetas = model.Etiquetas;
-
-                IEnumerable<IBuffer> archivos = lst;
-
-                IBuffer archivo = await ArchivosModel.PostArchivoPdf(model2, archivos);
-                byte[] st = archivo.ToArray();
-
-                var queryTags = from a in model2.Etiquetas
-                                select a.Valor;
-                string NombreArchivo = string.Join("-", queryTags) + ".pdf";
-                try
+                Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+                bool value = Convert.ToBoolean(localSettings.Values["SaveLocalFile"]);
+                if (value == true)
                 {
-                    await obtenerArchivoGuardado(st, pdfFolder.Path + @"\" + NombreArchivo);
+                    Models.Archivos.Archivos_PostBindingModel model2 = new Models.Archivos.Archivos_PostBindingModel();
+                    model2.Aplicacion = model.Aplicacion;
+                    model2.Categoria = model.Categoria;
+                    model2.Etiquetas = model.Etiquetas;
+
+                    IEnumerable<IBuffer> archivos = lst;
+
+                    IBuffer archivo = await ArchivosModel.PostArchivoPdf(model2, archivos);
+                    byte[] st = archivo.ToArray();
+
+                    var queryTags = from a in model2.Etiquetas
+                                    select a.Valor;
+                    string NombreArchivo = string.Join("-", queryTags) + ".pdf";
+                    try
+                    {
+                        await obtenerArchivoGuardado(st, pdfFolder.Path + @"\" + NombreArchivo);
+                    }
+                    catch { }
                 }
-                catch { }
                 ////////////////////
 
                 LimpiarVista();

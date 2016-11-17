@@ -48,6 +48,14 @@ namespace Digitalizacion
                                               join b in Autorizados on a.Number equals b
                                               select a;
 
+                
+                foreach (var item in Autorizados)
+                {
+                    if(item == 23) {
+                        ConfLink.Visibility = Visibility;
+                    }
+                }
+
                 // If we have saved state return to the previously selected scenario  
                 if (SuspensionManager.SessionState.ContainsKey("SelectedScenarioIndex") && String.IsNullOrEmpty(e.Parameter.ToString()))
                 {
@@ -160,6 +168,11 @@ namespace Digitalizacion
             ShowLogin();
         }
 
+        void Config_Click(object sender, RoutedEventArgs e)
+        {
+            ShowConfig();
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Splitter.IsPaneOpen = (Splitter.IsPaneOpen == true) ? false : true;
@@ -173,6 +186,15 @@ namespace Digitalizacion
             // configuring the new page by passing required information as a navigation
             // parameter
             rootFrame.Navigate(typeof(LoginPage));
+        }
+
+        public void ShowConfig()
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            // When the navigation stack isn't restored navigate to the first page,
+            // configuring the new page by passing required information as a navigation
+            // parameter
+            ScenarioFrame.Navigate(typeof(ConfigPage));
         }
     }
 }
