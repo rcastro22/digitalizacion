@@ -63,6 +63,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -84,7 +85,20 @@
                     Content="Unir">
             </Button>
 
-            <Button Grid.Row="1" Grid.Column="0" FontSize="36" Margin="0,5,5,5"
+            <!--<Button Grid.Row="1" Grid.ColumnSpan="2" Margin="0,5,0,5"
+                    x:Name="btnCargar" Click="btnCombinar_Click"
+                    IsEnabled="{Binding IsMergeAllowed}"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    Content="Cargar">
+            </Button>-->
+
+            <ComboBox Grid.Row="1" x:Name="cboCargar" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0,5,0,5"
+                      ItemsSource="{Binding Path=ScannerDataContext.Archivos}"
+                      SelectedValue="{Binding Path=Carrera, Mode=TwoWay}"
+                      SelectedValuePath="Nombre" Header="Cargar documentos escaneados"
+                      DisplayMemberPath="Alias" SelectionChanged="cboCargar_SelectionChanged"/>
+
+            <Button Grid.Row="2" Grid.Column="0" FontSize="36" Margin="0,5,5,5"
                     x:Name="btnFinalizar" Click="btnFinalizar_Click"
                     IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"
                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -92,7 +106,7 @@
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE105;" />
                 </Button.Content>
             </Button>
-            <Button Grid.Row="1" Grid.Column="1" FontSize="36" Margin="0,5,0,5"
+            <Button Grid.Row="2" Grid.Column="1" FontSize="36" Margin="0,5,0,5"
                     x:Name="btnCancelar" Click="btnCancelar_Click"
                     IsEnabled="{Binding Path=IsDeleteAllowed, Mode=OneWay}"
                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -100,10 +114,10 @@
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE107;" />
                 </Button.Content>
             </Button>
-            <TextBlock Grid.Row="2" Grid.ColumnSpan="2"
+            <TextBlock Grid.Row="3" Grid.ColumnSpan="2"
                        Margin="0,10,0,10"
                        Text="Lista de imágenes a digitalizar:" />
-            <ListView Grid.Row="3" Grid.ColumnSpan="2"
+            <ListView Grid.Row="4" Grid.ColumnSpan="2"
                       x:Name="ScanerListView"
                       Background="{StaticResource FondoList}"
                       ItemsSource="{Binding FileList}"

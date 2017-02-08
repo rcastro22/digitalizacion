@@ -2,6 +2,7 @@
 using Digitalizacion.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -45,13 +46,13 @@ namespace Digitalizacion
             FragmentFrame.Navigate(s);
 
             // Scanner
-            model = new EscanerDataContext();
+            model = new EscanerDataContext(s);
 
             if (!model.ScannerDataContext.WatcherStarted)
             {
                 model.ScannerDataContext.StartScannerWatcher();
             }
-
+            model.carpeta = s;
             model.ClearFileList();
 
             rootPage.DataContext = model;
@@ -117,6 +118,7 @@ namespace Digitalizacion
                 }
 
                 ////////////////////
+                // 24-Oct-2016, Roberto Castro, Proceso que guarda el archivo en la maquina local
                 Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
                 bool value = Convert.ToBoolean(localSettings.Values["SaveLocalFile"]);
                 if (value == true)
@@ -141,6 +143,14 @@ namespace Digitalizacion
                     catch { }
                 }
                 ////////////////////
+
+                if (cboCargar.SelectedItem != null)
+                {
+                    TransferirModel c = cboCargar.SelectedItem as TransferirModel;
+                    StorageFolder folder = await localFolder.GetFolderAsync(c.Nombre);
+
+                    await folder.DeleteAsync();
+                }
 
                 LimpiarVista();
 
@@ -167,10 +177,11 @@ namespace Digitalizacion
         private void LimpiarVista()
         {
             model.ClearFileList();
+            model.setArchivos();
 
             Type s = (Type)FragmentFrame.Content.GetType();
 
-            FragmentFrame.Navigate(s);
+            FragmentFrame.Navigate(s);           
         }
 
         private async void btnCancelar_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -369,6 +380,7 @@ namespace Digitalizacion
             }
         }
 
+
         private async void ScanerListView_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Delete && ScanerListView.SelectedItem != null)
@@ -416,6 +428,57 @@ namespace Digitalizacion
 
                     ScanerListView.SelectedItem = model.FileList.ElementAt(Indice);
                 }
+            }
+        }
+
+        private async void cboCargar_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            TransferirModel c = cboCargar.SelectedItem as TransferirModel;
+            List<IBuffer> lst = new List<IBuffer>();
+
+            if (cboCargar.SelectedItem != null)
+            {
+                try
+                {
+                    StorageFolder localFolder = await Utils.BaseFolder.GetFolderAsync(model.carpeta.Name.Replace("Page", string.Empty));
+                    StorageFolder folder = await localFolder.GetFolderAsync(c.Nombre);
+                    StorageFile metadata = await folder.GetFileAsync("Metadata.dat");
+
+                    IList<string> lines = await FileIO.ReadLinesAsync(metadata);
+
+                    for (int i = 1; i < lines.Count; i++)
+                    {
+                        rootPage.NotifyUser("Apertura en progreso...", NotifyType.StatusMessage);
+                        StorageFile file = await folder.GetFileAsync(lines.ElementAt(i));
+                        IBuffer buffer = await FileIO.ReadBufferAsync(file);
+                        lst.Add(buffer);
+                    }
+                
+
+                    int cont = 0;
+                    foreach(IBuffer img in lst)
+                    {
+                    
+                        StorageFile bmpFile = await model.DestinationFolder.CreateFileAsync(string.Format("Pagina {0}.bmp", cont + 1), CreationCollisionOption.GenerateUniqueName);
+                        await FileIO.WriteBufferAsync(bmpFile, img);
+
+                        Utils.SetImageSourceFromFile(bmpFile, DisplayImage);
+                        
+                        Utils.UpdateFileData(bmpFile, model);
+
+                        ScanerListView.SelectedItem = model.FileList.Last();
+                        cont++;
+                    }
+                    rootPage.NotifyUser(String.Empty, NotifyType.StatusMessage);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            else
+            {
+                DisplayImage.Source = null;
             }
         }
     }

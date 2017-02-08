@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Digitalizacion.Models
 {
-    class TransferirModel : INotifyPropertyChanged
+    public class TransferirModel : INotifyPropertyChanged
     {
         public string Nombre { get; set; }
         public string Alias { get; set; }

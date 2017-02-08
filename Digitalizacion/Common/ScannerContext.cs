@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Digitalizacion.Models;
+using Digitalizacion.Models.Alumnos;
+using Digitalizacion.Models.Carreras;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -149,6 +152,88 @@ namespace Digitalizacion.Common
             {
                 return scannerInfoList;
             }
+        }
+
+        ObservableCollection<Obtenercarrerasxcarnet_Result> carreras = new ObservableCollection<Obtenercarrerasxcarnet_Result>();
+        ObservableCollection<TransferirModel> archivos = new ObservableCollection<TransferirModel>();
+
+        public ObservableCollection<TransferirModel> Archivos
+        {
+            get
+            {
+                setArchivos();
+                return archivos;
+            }
+        }
+
+        public async void setArchivos()
+        {
+            this.archivos.Clear();
+            try
+            {
+                StorageFolder localFolder = await Utils.BaseFolder.GetFolderAsync(this.carpeta.Name.Replace("Page", string.Empty));
+                IReadOnlyList<StorageFolder> destinationFolders = await localFolder.GetFoldersAsync();
+
+                foreach (StorageFolder folder in destinationFolders)
+                {
+                    try
+                    {
+                        StorageFile file = await folder.GetFileAsync("Metadata.dat");
+
+                        IList<string> lines = await FileIO.ReadLinesAsync(file);
+
+                        JsonObject jsonObject = JsonObject.Parse(lines.First());
+                        JsonArray jsonArray = jsonObject.GetNamedArray("Etiquetas");
+
+                        List<Models.Etiquetas.Etiquetas> lst = new List<Models.Etiquetas.Etiquetas>();
+
+                        foreach (IJsonValue fila in jsonArray)
+                        {
+                            Models.Etiquetas.Etiquetas tag = new Models.Etiquetas.Etiquetas(fila);
+
+                            lst.Add(tag);
+                        }
+
+                        TransferirModel c = new TransferirModel()
+                        {
+                            Nombre = folder.Name,
+                            Alias = String.Join("-", lst.Select(p => p.Valor)),
+                            Enviando = false,
+                            Mensaje = null
+                        };
+
+                        this.archivos.Add(c);
+                    }
+                    catch (Exception)
+                    {
+                        // No pasa nada
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // No pasa nada
+            }
+
+            /*this.carreras.Clear();
+            try
+            {
+                Alumnos_GetBindingModel model = new Alumnos_GetBindingModel();
+                model.ID = "09003788";
+
+                var lst = await CarrerasModel.Get(model);
+
+                foreach (var fila in lst)
+                {
+                    this.carreras.Add(fila);
+                }
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+            }*/
         }
 
         /// <summary>
@@ -427,6 +512,7 @@ namespace Digitalizacion.Common
         /// </summary>
         public bool WatcherStarted = false;
         public event PropertyChangedEventHandler PropertyChanged;
+        public Type carpeta;
 
     }
 
@@ -435,10 +521,11 @@ namespace Digitalizacion.Common
     /// </summary>
     public class EscanerDataContext : INotifyPropertyChanged
     {
-        public EscanerDataContext()
+        public EscanerDataContext(Type _carpeta)
         {
             propertyChangedEventHandler = new PropertyChangedEventHandler(ScanContextPropertyEventHandler);
             currentScannerContext.PropertyChanged += propertyChangedEventHandler;
+            currentScannerContext.carpeta = _carpeta;
         }
 
         public void UnLoad()
@@ -567,6 +654,11 @@ namespace Digitalizacion.Common
             OnPropertyChanged("IsDeleteAllowed");
         }
 
+        public void setArchivos()
+        {
+            currentScannerContext.setArchivos();
+        }
+
         public bool IsSaveAllowed
         {
             get
@@ -653,5 +745,7 @@ namespace Digitalizacion.Common
 
         public event PropertyChangedEventHandler PropertyChanged;
         private PropertyChangedEventHandler propertyChangedEventHandler;
+
+        public Type carpeta;
     }
 }

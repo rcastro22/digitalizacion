@@ -266,6 +266,7 @@
     <Content Include="Assets\logocompleto620.png" />
     <Content Include="Assets\microsoft-sdk.png" />
     <Content Include="Assets\Out.png" />
+    <Content Include="Assets\Out2.png" />
     <Content Include="Assets\windows-sdk.png" />
     <Content Include="Assets\yellow.jpg" />
     <None Include="Package.StoreAssociation.xml" />
@@ -400,9 +401,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="Microsoft.NET.Native.Runtime.1.1, Version=1.1">
-      <Name>Microsoft .NET Core Runtime Package for Windows</Name>
-    </SDKReference>
     <SDKReference Include="WindowsDesktop, Version=10.0.10586.0">
       <Name>Windows Desktop Extensions for the UWP %28WindowsDesktop, Version=10.0.10586.0%29</Name>
     </SDKReference>
