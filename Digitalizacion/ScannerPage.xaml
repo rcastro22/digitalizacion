@@ -84,20 +84,11 @@
                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                     Content="Unir">
             </Button>
-
-            <!--<Button Grid.Row="1" Grid.ColumnSpan="2" Margin="0,5,0,5"
-                    x:Name="btnCargar" Click="btnCombinar_Click"
-                    IsEnabled="{Binding IsMergeAllowed}"
-                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                    Content="Cargar">
-            </Button>-->
-
-            <ComboBox Grid.Row="1" x:Name="cboCargar" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0,5,0,5"
+            <ComboBox Grid.Row="1" x:Name="cboCargar" HorizontalAlignment="Stretch" 
+                      Grid.ColumnSpan="2" Margin="0,5,0,5"
                       ItemsSource="{Binding Path=ScannerDataContext.Archivos}"
-                      SelectedValue="{Binding Path=Carrera, Mode=TwoWay}"
                       SelectedValuePath="Nombre" Header="Cargar documentos escaneados"
                       DisplayMemberPath="Alias" SelectionChanged="cboCargar_SelectionChanged"/>
-
             <Button Grid.Row="2" Grid.Column="0" FontSize="36" Margin="0,5,5,5"
                     x:Name="btnFinalizar" Click="btnFinalizar_Click"
                     IsEnabled="{Binding Path=IsSaveAllowed, Mode=OneWay}"

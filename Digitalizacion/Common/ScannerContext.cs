@@ -154,9 +154,10 @@ namespace Digitalizacion.Common
             }
         }
 
-        ObservableCollection<Obtenercarrerasxcarnet_Result> carreras = new ObservableCollection<Obtenercarrerasxcarnet_Result>();
-        ObservableCollection<TransferirModel> archivos = new ObservableCollection<TransferirModel>();
 
+        /// <summary>
+        /// List of files scanner for after use. 
+        /// </summary>
         public ObservableCollection<TransferirModel> Archivos
         {
             get
@@ -179,9 +180,7 @@ namespace Digitalizacion.Common
                     try
                     {
                         StorageFile file = await folder.GetFileAsync("Metadata.dat");
-
                         IList<string> lines = await FileIO.ReadLinesAsync(file);
-
                         JsonObject jsonObject = JsonObject.Parse(lines.First());
                         JsonArray jsonArray = jsonObject.GetNamedArray("Etiquetas");
 
@@ -213,27 +212,7 @@ namespace Digitalizacion.Common
             catch (Exception)
             {
                 // No pasa nada
-            }
-
-            /*this.carreras.Clear();
-            try
-            {
-                Alumnos_GetBindingModel model = new Alumnos_GetBindingModel();
-                model.ID = "09003788";
-
-                var lst = await CarrerasModel.Get(model);
-
-                foreach (var fila in lst)
-                {
-                    this.carreras.Add(fila);
-                }
-            }
-            catch (Exception)
-            {
-            }
-            finally
-            {
-            }*/
+            }            
         }
 
         /// <summary>
@@ -506,6 +485,7 @@ namespace Digitalizacion.Common
         /// </summary>
         ObservableCollection<ScannerDataItem> scannerInfoList = new ObservableCollection<ScannerDataItem>();
         ObservableCollection<TipoPapel> mediaSizeList = new ObservableCollection<TipoPapel>();
+        ObservableCollection<TransferirModel> archivos = new ObservableCollection<TransferirModel>();
 
         /// <summary>
         /// Flag to keep track of whether the device watcher has been started.

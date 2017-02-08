@@ -143,7 +143,7 @@ namespace Digitalizacion
                     catch { }
                 }
                 ////////////////////
-
+                // 08-Feb-2017, Roberto Castro, Si se cargaron imagen anteriormente digitalizadas, se borra la carpeta
                 if (cboCargar.SelectedItem != null)
                 {
                     TransferirModel c = cboCargar.SelectedItem as TransferirModel;
@@ -151,6 +151,7 @@ namespace Digitalizacion
 
                     await folder.DeleteAsync();
                 }
+                ////////////////////
 
                 LimpiarVista();
 
