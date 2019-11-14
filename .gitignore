@@ -3,3 +3,8 @@
 ################################################################################
 
 /Digitalizacion/AppPackages
+/Digitalizacion/obj
+/Digitalizacion/bin/x86/Debug
+/Digitalizacion/Backup
+/Digitalizacion/BundleArtifacts
+/.vs
