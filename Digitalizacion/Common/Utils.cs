@@ -148,7 +148,7 @@ namespace Digitalizacion.Common
             COMENTARIOS = 17, BOLETA = 18, HORARIO = 19, FECHAIMP = 20,
             PERIODO = 21, DPI = 22, TICKET = 23, PEOPLE = 24, FIRMADO = 25,
             DYNAMICS = 26, AULAS = 27, GES_PK = 28, EMPLID = 29, CONVENIO = 30, ADENDA = 33,
-            NOACTA = 41, CATEGORIA = 42
+            NOACTA = 41, CATEGORIA = 42, NOREGISTRO = 60
         }
 
         public static StorageFolder BaseFolder = KnownFolders.PicturesLibrary;

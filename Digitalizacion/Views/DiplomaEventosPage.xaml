@@ -1,0 +1,26 @@
+﻿<Page
+    x:Class="Digitalizacion.Views.DiplomaEventosPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Digitalizacion.Views"
+    xmlns:vm="using:Digitalizacion.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <vm:DiplomaEventosContext x:Key="DiplomaEventosContext" x:Name="DiplomaEventosContext" />
+    </Page.Resources>
+
+    <Grid Background="{StaticResource FondoPartial}">
+        <Grid.DataContext>
+            <Binding Source="{StaticResource DiplomaEventosContext}"/>
+        </Grid.DataContext>
+
+        <StackPanel>
+            <TextBox Text="{Binding Path=Noregistro, Mode=TwoWay}"
+                     MaxLength="30"
+                     Header="No. de Registro"/>
+        </StackPanel>
+
+    </Grid>
+</Page>

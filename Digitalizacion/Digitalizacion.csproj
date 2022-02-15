@@ -125,6 +125,7 @@
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\BecasContext.cs" />
     <Compile Include="ViewModels\ConveniosContext.cs" />
+    <Compile Include="ViewModels\DiplomaEventosContext.cs" />
     <Compile Include="ViewModels\DocenteContext.cs" />
     <Compile Include="ViewModels\DocsVariosAlumnoContext.cs" />
     <Compile Include="ViewModels\DocsVariosCarreraContext.cs" />
@@ -164,6 +165,9 @@
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Views\ConveniosPage.xaml.cs">
       <DependentUpon>ConveniosPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DiplomaEventosPage.xaml.cs">
+      <DependentUpon>DiplomaEventosPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DiplomasPage.xaml.cs">
       <DependentUpon>DiplomasPage.xaml</DependentUpon>
@@ -318,6 +322,10 @@
     <Page Include="Views\ConveniosPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DiplomaEventosPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DiplomasPage.xaml">
       <SubType>Designer</SubType>

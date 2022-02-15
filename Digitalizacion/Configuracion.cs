@@ -42,6 +42,7 @@ namespace Digitalizacion
             new Scenario() { Number=20,Title = "Documentos Alumno por Carrera", ClassType = typeof(Views.DocsVariosAlumnoPage), Scanner = true},
             new Scenario() { Number=21,Title = "Actas de Consejo Directivo", ClassType = typeof(Views.ConsejoDirectivoPage), Scanner = true},
             new Scenario() { Number=22,Title = "Convenios Generales", ClassType = typeof(Views.ConveniosPage), Scanner = true},
+            new Scenario() { Number=24,Title = "Diplomas Eventos", ClassType = typeof(Views.DiplomaEventosPage), Scanner = true},
             new Scenario() { Number=14,Title = "Transferir documentos", ClassType = typeof(TransferirPage), Scanner = false },            
         };
 
