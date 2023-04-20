@@ -258,7 +258,7 @@ namespace Digitalizacion.Common
             }
         }
 
-        protected async static Task<IHttpContent> PostAPI(string API, string data, IEnumerable<IBuffer> files)
+        protected async static Task<IHttpContent> PostAPI(string API, string data, IEnumerable<IBuffer> files, bool _pdf = false)
         {
             cts = new CancellationTokenSource();
 
@@ -281,10 +281,21 @@ namespace Digitalizacion.Common
                     form.Add(new HttpStringContent(data), "model");
                     form.First().Headers.ContentType = Windows.Web.Http.Headers.HttpMediaTypeHeaderValue.Parse("application/json");
 
+                    string extension;
+                    string mime;
+                    if (_pdf)
+                    {
+                        extension = ".pdf";
+                        mime = "application/pdf";
+                    }
+                    else {
+                        extension = ".bmp";
+                        mime = "image/bmp";
+                    }
                     for (int i = 0; i < files.Count(); i++)
                     {
-                        form.Add(new HttpBufferContent(files.ElementAt(i), 0, files.ElementAt(i).Length), "image" + i, "Imagen" + i + ".bmp");
-                        form.ElementAt(i + 1).Headers.ContentType = Windows.Web.Http.Headers.HttpMediaTypeHeaderValue.Parse("image/bmp");
+                        form.Add(new HttpBufferContent(files.ElementAt(i), 0, files.ElementAt(i).Length), "image" + i, "Imagen" + i + extension);
+                        form.ElementAt(i + 1).Headers.ContentType = Windows.Web.Http.Headers.HttpMediaTypeHeaderValue.Parse(mime);
                     }
 
                     response = await httpClient.PostAsync(resourceUri, form).AsTask(cts.Token);

@@ -38,7 +38,7 @@ namespace Digitalizacion
 
         private void chkTodos_Checked(object sender, RoutedEventArgs e)
         {
-            lstArchivos.SelectAll();
+            lstArchivos.SelectAll();            
         }
 
         private void chkTodos_Unchecked(object sender, RoutedEventArgs e)
@@ -48,65 +48,112 @@ namespace Digitalizacion
 
         private async void btnTransferir_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if (chkPdf.IsChecked == false)
             {
-                CambiarVisibilidad(Visibility.Collapsed);
-
-                Models.Archivos.Archivos_PostBindingModel model = new Models.Archivos.Archivos_PostBindingModel();                
-
-                foreach (var fila in lstArchivos.SelectedItems.Reverse())
+                try
                 {
-                    TransferirModel myFolder = (TransferirModel)fila;
-                    myFolder.Enviando = true;
+                    CambiarVisibilidad(Visibility.Collapsed);
 
-                    StorageFolder localFolder = await Utils.BaseFolder.CreateFolderAsync(TransferirContext.Carpeta.Name.Replace("Page", string.Empty), CreationCollisionOption.OpenIfExists);
-                    StorageFolder pdfFolderDig = await localFolder.CreateFolderAsync("Digitalizados", CreationCollisionOption.OpenIfExists);
-                    StorageFolder pdfFolderTran = await localFolder.CreateFolderAsync("Transferidos", CreationCollisionOption.OpenIfExists);
+                    Models.Archivos.Archivos_PostBindingModel model = new Models.Archivos.Archivos_PostBindingModel();
 
-                    try
+                    foreach (var fila in lstArchivos.SelectedItems.Reverse())
                     {
-                        model = await TransferirContext.getModel(myFolder.Nombre);
-                        model.Agregar = true;
+                        TransferirModel myFolder = (TransferirModel)fila;
+                        myFolder.Enviando = true;
 
-                        IEnumerable<IBuffer> archivos = await TransferirContext.getFolderFiles(myFolder.Nombre);
+                        StorageFolder localFolder = await Utils.BaseFolder.CreateFolderAsync(TransferirContext.Carpeta.Name.Replace("Page", string.Empty), CreationCollisionOption.OpenIfExists);
+                        StorageFolder pdfFolderDig = await localFolder.CreateFolderAsync("Digitalizados", CreationCollisionOption.OpenIfExists);
+                        StorageFolder pdfFolderTran = await localFolder.CreateFolderAsync("Transferidos", CreationCollisionOption.OpenIfExists);
 
-                        string IdArchivo;
-                        IdArchivo = Convert.ToString(await ArchivosModel.Post(model, archivos));
-
-                        //////////////////////////////
-                        Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-                        bool value = Convert.ToBoolean(localSettings.Values["SaveLocalFile"]);
-                        if (value == true)
+                        try
                         {
-                            var queryTags = from a in model.Etiquetas
-                                            select a.Valor;
-                            string NombreArchivo = string.Join("-", queryTags) + ".pdf";
-                            try
-                            {
-                                StorageFile filepage = await pdfFolderDig.GetFileAsync(NombreArchivo);
-                                await filepage.MoveAsync(pdfFolderTran, NombreArchivo, NameCollisionOption.ReplaceExisting);
-                            }
-                            catch
-                            { }
-                        }
-                        //////////////////////////////
+                            model = await TransferirContext.getModel(myFolder.Nombre);
+                            model.Agregar = true;
 
-                        await TransferirContext.RemoverFolder(myFolder);
-                    }
-                    catch (Exception ex)
-                    {
-                        myFolder.Mensaje = ex.Message;
-                        myFolder.Enviando = false;
+                            IEnumerable<IBuffer> archivos = await TransferirContext.getFolderFiles(myFolder.Nombre);
+
+                            string IdArchivo;
+                            IdArchivo = Convert.ToString(await ArchivosModel.Post(model, archivos));
+
+                            //////////////////////////////
+                            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+                            bool value = Convert.ToBoolean(localSettings.Values["SaveLocalFile"]);
+                            if (value == true)
+                            {
+                                var queryTags = from a in model.Etiquetas
+                                                select a.Valor;
+                                string NombreArchivo = string.Join("-", queryTags) + ".pdf";
+                                try
+                                {
+                                    StorageFile filepage = await pdfFolderDig.GetFileAsync(NombreArchivo);
+                                    await filepage.MoveAsync(pdfFolderTran, NombreArchivo, NameCollisionOption.ReplaceExisting);
+                                }
+                                catch
+                                { }
+                            }
+                            //////////////////////////////
+
+                            await TransferirContext.RemoverFolder(myFolder);
+                        }
+                        catch (Exception ex)
+                        {
+                            myFolder.Mensaje = ex.Message;
+                            myFolder.Enviando = false;
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    rootPage.NotifyUser(ex.Message, NotifyType.ErrorMessage);
+                }
+                finally
+                {
+                    CambiarVisibilidad(Visibility.Visible);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                rootPage.NotifyUser(ex.Message, NotifyType.ErrorMessage);
-            }
-            finally
-            {
-                CambiarVisibilidad(Visibility.Visible);
+                try
+                {
+                    CambiarVisibilidad(Visibility.Collapsed);
+
+                    Models.Archivos.Archivos_PostBindingModel model = new Models.Archivos.Archivos_PostBindingModel();
+
+                    foreach (var fila in lstArchivos.SelectedItems.Reverse())
+                    {
+                        TransferirModel myFolder = (TransferirModel)fila;
+                        myFolder.Enviando = true;
+
+                        StorageFolder localFolder = await Utils.BaseFolder.CreateFolderAsync(TransferirContext.Carpeta.Name.Replace("Page", string.Empty), CreationCollisionOption.OpenIfExists);                        
+
+                        try
+                        {
+                            model = await TransferirContext.getModel(myFolder.Nombre);
+                            model.Agregar = true;
+
+                            string fileNamePdf = myFolder.Alias.Remove(myFolder.Alias.IndexOf("(")).Trim();
+                            IEnumerable<IBuffer> archivos = await TransferirContext.getFolderFilesPdf(myFolder.Nombre, fileNamePdf);
+
+                            string IdArchivo;
+                            IdArchivo = Convert.ToString(await ArchivosModel.Post(model, archivos,true));
+
+                            await TransferirContext.RemoverFolder(myFolder);
+                        }
+                        catch (Exception ex)
+                        {
+                            myFolder.Mensaje = ex.Message;
+                            myFolder.Enviando = false;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    rootPage.NotifyUser(ex.Message, NotifyType.ErrorMessage);
+                }
+                finally
+                {
+                    CambiarVisibilidad(Visibility.Visible);
+                }
             }
         }
 

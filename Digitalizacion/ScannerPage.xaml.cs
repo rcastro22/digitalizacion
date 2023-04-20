@@ -454,17 +454,33 @@ namespace Digitalizacion
                         IBuffer buffer = await FileIO.ReadBufferAsync(file);
                         lst.Add(buffer);
                     }
-                
+
 
                     int cont = 0;
-                    foreach(IBuffer img in lst)
+                    const Int32 ERROR_UNABLE_TO_REMOVE_REPLACED = unchecked((Int32)0x80070497);
+                    foreach (IBuffer img in lst)
                     {
-                    
+
                         StorageFile bmpFile = await model.DestinationFolder.CreateFileAsync(string.Format("Pagina {0}.bmp", cont + 1), CreationCollisionOption.GenerateUniqueName);
-                        await FileIO.WriteBufferAsync(bmpFile, img);
+                        
+                        Int32 retryAttempts = 5;
+                        while (retryAttempts > 0)
+                        {
+                            try
+                            {
+                                retryAttempts--;
+                                await FileIO.WriteBufferAsync(bmpFile, img);
+                                break;
+                            }
+                            catch (Exception ex) when ((ex.HResult == ERROR_UNABLE_TO_REMOVE_REPLACED))
+                            {
+                                // This might be recovered by retrying, otherwise let the exception be raised.
+                                // The app can decide to wait before retrying.
+                            }
+                        }                       
 
                         Utils.SetImageSourceFromFile(bmpFile, DisplayImage);
-                        
+
                         Utils.UpdateFileData(bmpFile, model);
 
                         ScanerListView.SelectedItem = model.FileList.Last();
@@ -472,7 +488,7 @@ namespace Digitalizacion
                     }
                     rootPage.NotifyUser(String.Empty, NotifyType.StatusMessage);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     throw;
                 }

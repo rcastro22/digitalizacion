@@ -20,6 +20,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -48,6 +49,10 @@
         </StackPanel>
 
         <CheckBox Grid.Row="1" 
+                  x:Name="chkPdf"
+                  Content="PDF" VerticalAlignment="Bottom"
+                  IsChecked="{Binding Path=PdfCheck, Mode=TwoWay}" />
+        <CheckBox Grid.Row="2" 
                   x:Name="chkTodos"
                   Content="Todos" VerticalAlignment="Bottom"
                   Checked="chkTodos_Checked"
@@ -60,20 +65,20 @@
             <TextBlock x:Name="txtUsuario" />
         </StackPanel>
 
-        <ListView Grid.Row="2"
+        <ListView Grid.Row="3"
                   x:Name="lstArchivos"
                   Background="{StaticResource FondoList}"
                   ItemsSource="{Binding Archivos}"
                   ItemTemplate="{StaticResource ArchivosItemsTemplate}"
                   SelectionMode="Multiple"
                   SelectionChanged="lstArchivos_SelectionChanged"/>
-        <ListView Grid.Row="2" Grid.Column="1"
+        <ListView Grid.Row="3" Grid.Column="1"
                   x:Name="lstTransferidos"
                   Background="{StaticResource FondoList}"
                   ItemsSource="{Binding Transferidos}"
                   SelectionMode="None"/>
 
-        <Button Grid.Row="3" Grid.ColumnSpan="2"
+        <Button Grid.Row="4" Grid.ColumnSpan="2"
                 x:Name="btnTransferir"
                 Content="Transferir archivos seleccionados"
                 IsEnabled="{Binding Path=IsTransferirAllowed, Mode=OneWay}"

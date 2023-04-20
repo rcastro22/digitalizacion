@@ -28,11 +28,11 @@ namespace Digitalizacion.Models
             return null;
         }
 
-        public static async Task<IHttpContent> Post(Archivos_PostBindingModel model, IEnumerable<IBuffer> files)
+        public static async Task<IHttpContent> Post(Archivos_PostBindingModel model, IEnumerable<IBuffer> files, bool _pdf = false)
         {
             string json = model.Stringify();
 
-            return await PostAPI("api/Archivos", json, files);
+            return await PostAPI("api/Archivos", json, files, _pdf);
 
         }
 
