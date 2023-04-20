@@ -48,28 +48,29 @@ namespace Digitalizacion
 
         private async void btnTransferir_Click(object sender, RoutedEventArgs e)
         {
-            if (chkPdf.IsChecked == false)
+            try
             {
-                try
+                CambiarVisibilidad(Visibility.Collapsed);
+
+                Models.Archivos.Archivos_PostBindingModel model = new Models.Archivos.Archivos_PostBindingModel();
+
+                foreach (var fila in lstArchivos.SelectedItems.Reverse())
                 {
-                    CambiarVisibilidad(Visibility.Collapsed);
+                    TransferirModel myFolder = (TransferirModel)fila;
+                    myFolder.Enviando = true;
 
-                    Models.Archivos.Archivos_PostBindingModel model = new Models.Archivos.Archivos_PostBindingModel();
+                    StorageFolder localFolder = await Utils.BaseFolder.CreateFolderAsync(TransferirContext.Carpeta.Name.Replace("Page", string.Empty), CreationCollisionOption.OpenIfExists);
+                    StorageFolder pdfFolderDig = await localFolder.CreateFolderAsync("Digitalizados", CreationCollisionOption.OpenIfExists);
+                    StorageFolder pdfFolderTran = await localFolder.CreateFolderAsync("Transferidos", CreationCollisionOption.OpenIfExists);
 
-                    foreach (var fila in lstArchivos.SelectedItems.Reverse())
+                    try
                     {
-                        TransferirModel myFolder = (TransferirModel)fila;
-                        myFolder.Enviando = true;
+                        model = await TransferirContext.getModel(myFolder.Nombre);
+                        model.Agregar = true;
 
-                        StorageFolder localFolder = await Utils.BaseFolder.CreateFolderAsync(TransferirContext.Carpeta.Name.Replace("Page", string.Empty), CreationCollisionOption.OpenIfExists);
-                        StorageFolder pdfFolderDig = await localFolder.CreateFolderAsync("Digitalizados", CreationCollisionOption.OpenIfExists);
-                        StorageFolder pdfFolderTran = await localFolder.CreateFolderAsync("Transferidos", CreationCollisionOption.OpenIfExists);
-
-                        try
+                        // 20-04-2023, RC, Si esta seleccionado solo PDF, envia el archivo
+                        if (chkPdf.IsChecked == false)
                         {
-                            model = await TransferirContext.getModel(myFolder.Nombre);
-                            model.Agregar = true;
-
                             IEnumerable<IBuffer> archivos = await TransferirContext.getFolderFiles(myFolder.Nombre);
 
                             string IdArchivo;
@@ -92,69 +93,33 @@ namespace Digitalizacion
                                 { }
                             }
                             //////////////////////////////
-
-                            await TransferirContext.RemoverFolder(myFolder);
                         }
-                        catch (Exception ex)
-                        {
-                            myFolder.Mensaje = ex.Message;
-                            myFolder.Enviando = false;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    rootPage.NotifyUser(ex.Message, NotifyType.ErrorMessage);
-                }
-                finally
-                {
-                    CambiarVisibilidad(Visibility.Visible);
-                }
-            }
-            else
-            {
-                try
-                {
-                    CambiarVisibilidad(Visibility.Collapsed);
-
-                    Models.Archivos.Archivos_PostBindingModel model = new Models.Archivos.Archivos_PostBindingModel();
-
-                    foreach (var fila in lstArchivos.SelectedItems.Reverse())
-                    {
-                        TransferirModel myFolder = (TransferirModel)fila;
-                        myFolder.Enviando = true;
-
-                        StorageFolder localFolder = await Utils.BaseFolder.CreateFolderAsync(TransferirContext.Carpeta.Name.Replace("Page", string.Empty), CreationCollisionOption.OpenIfExists);                        
-
-                        try
-                        {
-                            model = await TransferirContext.getModel(myFolder.Nombre);
-                            model.Agregar = true;
-
+                        else {
                             string fileNamePdf = myFolder.Alias.Remove(myFolder.Alias.IndexOf("(")).Trim();
                             IEnumerable<IBuffer> archivos = await TransferirContext.getFolderFilesPdf(myFolder.Nombre, fileNamePdf);
 
                             string IdArchivo;
-                            IdArchivo = Convert.ToString(await ArchivosModel.Post(model, archivos,true));
+                            IdArchivo = Convert.ToString(await ArchivosModel.Post(model, archivos, true));
+                        }
+                        // 20-04-2023, RC
 
-                            await TransferirContext.RemoverFolder(myFolder);
-                        }
-                        catch (Exception ex)
-                        {
-                            myFolder.Mensaje = ex.Message;
-                            myFolder.Enviando = false;
-                        }
+                        await TransferirContext.RemoverFolder(myFolder);
+                    }
+                    catch (Exception ex)
+                    {
+                        myFolder.Mensaje = ex.Message;
+                        myFolder.Enviando = false;
                     }
                 }
-                catch (Exception ex)
-                {
-                    rootPage.NotifyUser(ex.Message, NotifyType.ErrorMessage);
-                }
-                finally
-                {
-                    CambiarVisibilidad(Visibility.Visible);
-                }
             }
+            catch (Exception ex)
+            {
+                rootPage.NotifyUser(ex.Message, NotifyType.ErrorMessage);
+            }
+            finally
+            {
+                CambiarVisibilidad(Visibility.Visible);
+            }            
         }
 
         public async Task obtenerArchivoGuardad(byte[] buffer, string path)

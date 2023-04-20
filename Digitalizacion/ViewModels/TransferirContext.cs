@@ -295,7 +295,7 @@ namespace Digitalizacion.ViewModels
                         //fileTypeFilter.Add(".bmp");
                         //fileTypeFilter.Add(".gif");
                         var queryOptions = new QueryOptions(CommonFileQuery.OrderByName, fileTypeFilter);
-                        var query = KnownFolders.PicturesLibrary.CreateFileQueryWithOptions(queryOptions);
+                        var query = folder.CreateFileQueryWithOptions(queryOptions);
                         IReadOnlyList<StorageFile> fileList = await query.GetFilesAsync();
                         // Process results
                         int counter = 0;

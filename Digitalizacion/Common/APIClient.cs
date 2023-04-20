@@ -16,7 +16,10 @@ namespace Digitalizacion.Common
         // A pointer back to the main page.  This is needed if you want to call methods in MainPage such
         // as NotifyUser()
         public static MainPage rootPage = MainPage.Current;
-        private const string AddressField = "https://dg.galileo.edu/dg/";
+        //private const string AddressField = "https://dg.galileo.edu/dg/";
+        private const string AddressField = "https://dg.galileo.edu/dgpruebas/";
+        //private const string AddressField = "https://dg.galileo.edu:8084/";
+        //private const string AddressField = "http://localhost:2459/";
         private static HttpBaseProtocolFilter filter;
         private static HttpClient httpClient;
         private static CancellationTokenSource cts;
